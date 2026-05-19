@@ -82,19 +82,23 @@ The current system includes:
 
 <br>
 
-## Python Workflow Architecture
+### Python Workflow Architecture
 
-db_connection.py
-- Creates SQL server database connections
+### `db_connection.py`
 
-request_workflow.py
-- Main orchestration workflow for processing access requests
+Handles SQL Server database connectivity and connection management.
 
-email_generator.py
-- Builds standardized email content
+### `request_workflow.py`
 
-outlook_email.py
-- Creates Outlook draft emails automatically
+Main orchestration workflow for processing access requests.
+
+### `email_generator.py`
+
+Builds standardized email content.
+
+### `outlook_email.py`
+
+Creates Outlook draft emails automatically.
 
 <br>
 
@@ -139,6 +143,14 @@ Dashboard User Request Flow:
 <p style="margin-left: 20px;">
   <img src="docs/images/architecture-diagram.png" alt="Workflow Diagram" width="300">
 </p>
+
+<br>
+
+## Screenshots
+
+### Outlook Draft Email
+
+![Outlook Draft Email](docs/images/outlook-draft.png)
 
 <br>
 
@@ -193,6 +205,75 @@ dashboard-access-tracker/
 ├── docs/
 │
 └── sample_data/
+```
+
+<br>
+
+## Setup Instructions
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/arroyoHub/dashboard-access-tracker.git
+```
+
+### 2. Open the project folder
+
+```bash
+cd dashboard-access-tracker
+```
+
+### 3. Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+### 4. Activate the virtual environment
+
+Windows PowerShell:
+
+```bash
+.\.venv\Scripts\Activate.ps1
+```
+
+### 5. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 6. Configure environment variables
+
+Create a `.env` file in the project root using `.env.example` as a template.
+
+Example:
+
+```env
+DB_SERVER=YOUR_SERVER_NAME
+DB_NAME=YOUR_DATABASE_NAME
+```
+
+### 7. Execute SQL setup scripts
+
+Run the SQL scripts in order:
+
+1. 01_create_tables.sql
+2. 02_insert_sample_data.sql
+3. 03_create_views.sql
+4. 05_stored_procedures.sql
+
+### 8. Run the workflow script
+
+```bash
+python src/request_workflow.py
+```
+
+### 9. Optional notebook walkthrough
+
+Open:
+
+```text
+notebooks/access_tracker_walkthrough.ipynb
 ```
 
 <br>
