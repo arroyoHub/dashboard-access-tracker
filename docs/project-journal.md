@@ -36,7 +36,7 @@ Planned relational structure for:
 - Stored procedures for business logic
 - Modular project structure for scalability
 
----
+<br>
 
 ## 2026-05-12 - SQL Database Foundation + GitHub Setup
 
@@ -114,7 +114,7 @@ Created initial documentation files:
 - importance of modular folder structure
 - importance of saving all files before testing/running
 
----
+<br>
 
 ## 2026-05-13 - Python Environment + SQL Server Integration
 
@@ -169,7 +169,7 @@ Troubleshot:
 - Save All workflow habits
 - dependency isolation
 
----
+<br>
 
 ## 2026-05-13 - Workflow Automation + Outlook Integration
 
@@ -260,7 +260,107 @@ Communication formatting layer:
 External integration layer:
 - outlook_email.py
 
----
+<br>
+
+## 2026-05-19 - Environment Configuration + Workflow State Management
+
+### Environment Configuration Improvements
+
+Implemented secure environment variable configuration using:
+
+- `.env`
+- `.env.example`
+- `.gitignore`
+
+Removed hardcoded SQL Server connection values from Python source code.
+
+Configured:
+- environment variable loading using `python-dotenv`
+- reusable SQL Server configuration handling
+- safer GitHub sharing practices
+
+### Git + Repository Improvements
+
+Improved repository structure and collaboration readiness.
+
+Created:
+- `requirements.txt`
+- `docs/images/`
+- workflow diagrams
+- architecture diagrams
+
+Learned:
+- virtual environment activation workflow
+- dependency isolation concepts
+- Git tracking vs ignored files
+- safe credential handling
+- repository onboarding concepts
+
+### README Documentation Improvements
+
+Expanded README with:
+- workflow explanations
+- architecture documentation
+- setup instructions
+- workflow diagrams
+- architecture diagrams
+- Outlook draft screenshots
+- project structure explanations
+
+Learned:
+- Markdown formatting
+- image embedding in README
+- diagram layout concepts
+- technical documentation flow
+- balancing readability and technical detail
+
+### Workflow State Management Added
+
+Created SQL stored procedure:
+
+- `usp_UpdateAccessRequestStatus`
+
+Successfully implemented:
+- request status updates
+- notes updates
+- Python-to-SQL workflow state transitions
+
+Created Python function:
+
+- `update_access_request_status()`
+
+Successfully tested:
+- Python execution
+- SQL Server updates
+- stored procedure integration
+- persisted workflow lifecycle tracking
+
+### Important Engineering Concepts Learned
+
+- layered debugging methodology
+- isolated feature testing
+- workflow lifecycle management
+- separation between workflow state and access state
+- importance of reusable test queries
+- importance of project journaling/documentation
+- relationship between architecture diagrams and workflow diagrams
+- importance of incremental validation before orchestration integration
+
+### Major Architecture Evolution
+
+Project evolved further from:
+- a workflow automation prototype
+
+Into:
+- a lifecycle-aware workflow management system with:
+  - workflow state tracking
+  - SQL stored procedure orchestration
+  - reusable environment configuration
+  - collaborative repository structure
+  - engineering documentation
+  - visual architecture communication
+
+<br>
 
 ## Planned Next Steps
 
