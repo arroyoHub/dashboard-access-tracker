@@ -1,84 +1,95 @@
 /*
-===========================================================
-Project: Third-Party Dashboard Access Tracker
-Script: 04_test_queries.sql
-
-Description:
-Test queries used to validate tables, relationships,
-views, and sample data.
-===========================================================
+====================================================
+Dashboard Access Tracker - Test Queries
+====================================================
+Purpose:
+Reusable validation queries for checking database records,
+relationships, workflow status, email logs, and reporting views.
+====================================================
 */
 
-USE Dashboard_User_Access;
-GO
+USE Dashboard_User_Access
 
--- View all current user-client access relationships
+----------------------------------------------------
+-- Core Tables
+----------------------------------------------------
+
 SELECT *
-FROM dbo.vw_UserClientAccess;
-GO
+FROM dbo.DashboardUsers;
 
--- View all access requests
 SELECT *
-FROM dbo.vw_AccessRequests;
-GO
+FROM dbo.Clients;
 
--- View all requested clients tied to each request
 SELECT *
-FROM dbo.vw_AccessRequestClients;
-GO
+FROM dbo.ContractManagers;
 
--- View email log history
 SELECT *
-FROM dbo.vw_EmailLog;
-GO
+FROM dbo.AccessRequests;
 
--- Find all clients for one dashboard user
-SELECT
-    FirstName,
-    LastName,
-    Email,
-    ClientCode,
-    ClientName
-FROM dbo.vw_UserClientAccess
-WHERE Email = 'jane.doe@example.com';
-GO
+SELECT *
+FROM dbo.AccessRequestClients;
 
--- Find all users with access to one client
-SELECT
-    ClientCode,
-    ClientName,
-    FirstName,
-    LastName,
-    Email
-FROM dbo.vw_UserClientAccess
-WHERE ClientCode = 'CLIENT001';
-GO
+SELECT *
+FROM dbo.EmailLog;
 
--- Count active users per client
-SELECT
-    ClientCode,
-    ClientName,
-    COUNT(*) AS ActiveUserCount
-FROM dbo.vw_UserClientAccess
-WHERE IsActive = 1
-GROUP BY
-    ClientCode,
-    ClientName
-ORDER BY
-    ActiveUserCount DESC;
-GO
+----------------------------------------------------
+-- Access Request Status Checks
+----------------------------------------------------
 
--- Find pending or incomplete requests
 SELECT
     AccessRequestID,
-    FirstName,
-    LastName,
-    Email,
-    RequestType,
+    DashboardUserID,
     RequestStatus,
+    Notes,
     DateRequested,
     DateEmailSent,
     DateCompleted
-FROM dbo.vw_AccessRequests
-WHERE DateCompleted IS NULL;
-GO
+FROM dbo.AccessRequests
+ORDER BY AccessRequestID DESC;
+
+----------------------------------------------------
+-- Email Log Checks
+----------------------------------------------------
+
+SELECT
+    EmailLogID,
+    AccessRequestID,
+    SentTo,
+    SentCC,
+    SubjectLine,
+    BodyText,
+    DateSent
+FROM dbo.EmailLog
+ORDER BY EmailLogID DESC;
+
+----------------------------------------------------
+-- Views
+----------------------------------------------------
+
+SELECT *
+FROM dbo.vw_AccessRequests;
+
+SELECT *
+FROM dbo.vw_AccessRequestClients;
+
+SELECT *
+FROM dbo.vw_EmailLog;
+
+SELECT *
+FROM dbo.vw_UserClientAccess;
+
+----------------------------------------------------
+-- Stored Procedure Test: Status Update
+----------------------------------------------------
+
+EXEC dbo.usp_UpdateAccessRequestStatus
+    @AccessRequestID = 1,
+    @RequestStatus = 'Pending',
+    @Notes = 'Testing status update logic from SQL test script.';
+
+SELECT
+    AccessRequestID,
+    RequestStatus,
+    Notes
+FROM dbo.AccessRequests
+WHERE AccessRequestID = 1;

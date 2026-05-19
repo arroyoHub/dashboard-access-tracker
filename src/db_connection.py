@@ -2,6 +2,7 @@ import pyodbc
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
 
 def get_connection():
     """
@@ -14,13 +15,12 @@ def get_connection():
 
     server = os.getenv("DB_SERVER")
     database = os.getenv("DB_NAME")
-
-    connection_string = f"""
-DRIVER={{ODBC Driver 17 for SQL Server}};
-SERVER={server};
-DATABASE={database};
-Trusted_Connection=yes;
-"""
+    connection_string = (
+        f"DRIVER={{ODBC Driver 17 for SQL Server}};"
+        f"SERVER={server};"
+        f"DATABASE={database};"
+        f"Trusted_Connection=yes;"
+    )
 
     try:
         connection = pyodbc.connect(connection_string)

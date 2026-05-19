@@ -236,6 +236,7 @@ def process_access_request(
     if dashboard_user_id is None:
         print("Failed to create dashboard user. Aborting access request process.")
         return None
+    
     access_request_id = create_access_request(
         dashboard_user_id = dashboard_user_id,
         contract_manager_id = contract_manager_id,
@@ -247,20 +248,64 @@ def process_access_request(
     if access_request_id is None:
         print("Failed to create access request. Aborting access request process.")
         return None
+    
     for client_id in client_ids:
         if not add_client_to_access_request(access_request_id, client_id):
             print(f"Failed to add client {client_id} to access request. Aborting access request process.")
             return None
+
     subject_line, body_text = generate_access_request_email(first_name, last_name, email, client_codes)
     if not send_access_request_email(sent_to, sent_cc, subject_line, body_text):
         print("Failed to create email draft. Aborting access request process.")
         return None
+    
     if not log_access_request_email(access_request_id, "Add", sent_to, sent_cc, subject_line, body_text):
         print("Failed to log access request email. Aborting access request process.")
         return None
+    
+    if not update_access_request_status(
+        access_request_id=access_request_id,
+        request_status="Pending",
+        notes="Outlook draft generated and email activity logged."
+    ):
+        print("Failed to update access request status. Aborting access request process.")
+        return None
+
     print(f"Access request process completed successfully. AccessRequestID: {access_request_id}")
     return access_request_id
 
+
+
+def update_access_request_status(access_request_id, request_status, notes=None):
+    conn = get_connection()
+
+    if conn is None:
+        print("Failed to connect to the database. Cannot update access request status.")
+        return False
+
+    try:
+        cursor = conn.cursor()
+
+        sql = """
+        EXEC dbo.usp_UpdateAccessRequestStatus
+            @AccessRequestID = ?,
+            @RequestStatus = ?,
+            @Notes = ?
+        """
+
+        cursor.execute(sql, access_request_id, request_status, notes)
+        conn.commit()
+
+        print(f"Access request status updated for ID: {access_request_id}")
+        return True
+
+    except Exception as e:
+        conn.rollback()
+        print("Error updating access request status:", e)
+        return False
+
+    finally:
+        conn.close()
 
 if __name__ == "__main__":
 
@@ -277,3 +322,10 @@ if __name__ == "__main__":
         sent_cc="itg.team@example.com"
     )
     
+    """
+    update_access_request_status(
+        access_request_id=1,
+        request_status="Pending",
+        notes="Updated from Python test."
+    )
+    """

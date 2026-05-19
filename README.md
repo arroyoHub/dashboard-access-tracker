@@ -1,4 +1,6 @@
-# Third-Party Dashboard Access Tracker
+# Dashboard Access Tracker
+
+
 
 ## Project Overview
 
@@ -20,7 +22,7 @@ This project improves:
 
 The system was designed as a portfolio-safe demonstration project using fake/sample data only.
 
----
+<br>
 
 ## Business Problem
 
@@ -35,7 +37,6 @@ The actual dashboard access is managed externally by a third-party provider. Int
 
 Originally, this process was tracked primarily through spreadsheets and email history.
 
----
 
 ## Project Goals
 
@@ -46,7 +47,23 @@ Originally, this process was tracked primarily through spreadsheets and email hi
 - Build a future GUI for internal request management
 - Create a portfolio-quality backend systems project
 
----
+<br>
+
+## Current System Capabilities
+
+The current system includes:
+
+ - SQL Server relational database backend
+ - Stored procedures for workflow operations
+ - Python orchestration workflow
+ - Outlook email draft automation
+ - Email logging
+ - Multi-client request handling
+ - Jupyter Notebook walkthrough
+ - GitHub version control
+ - Environment variable configuration using `.env`
+
+<br>
 
 ## Technologies Used
 
@@ -55,13 +72,33 @@ Originally, this process was tracked primarily through spreadsheets and email hi
 - T-SQL
 - VS Code
 - GitHub
-- Python (planned)
-- Jupyter Notebook (planned)
-- Outlook Automation (planned)
+- Python
+- pyodbc
+- pandas
+- Jupyter Notebook
+- Outlook COM Automation (pywin32)
+- Git
+- GitHub
 
----
+<br>
 
-## Database Design Concepts Used
+## Python Workflow Architecture
+
+db_connection.py
+- Creates SQL server database connections
+
+request_workflow.py
+- Main orchestration workflow for processing access requests
+
+email_generator.py
+- Builds standardized email content
+
+outlook_email.py
+- Creates Outlook draft emails automatically
+
+<br>
+
+## Database Concepts
 
 - Relational database design
 - Primary keys
@@ -73,7 +110,7 @@ Originally, this process was tracked primarily through spreadsheets and email hi
 - Workflow state tracking
 - Audit logging
 
----
+<br>
 
 ## Database Workflow
 
@@ -87,7 +124,23 @@ Dashboard User Request Flow:
 6. Email activity is logged
 7. Request is marked completed after confirmation
 
----
+<br>
+
+## Workflow Diagram
+
+<p style="margin-left: 100px;">
+  <img src="docs/images/workflow-diagram.png" alt="Workflow Diagram" width="140">
+</p>
+
+<br>
+
+## Architecture Diagram
+
+<p style="margin-left: 20px;">
+  <img src="docs/images/architecture-diagram.png" alt="Workflow Diagram" width="300">
+</p>
+
+<br>
 
 ## Current Database Objects
 
@@ -116,12 +169,12 @@ Dashboard User Request Flow:
 - usp_LogAccessRequestEmail
 - usp_MarkAccessRequestCompleted
 
----
+<br>
 
 ## Project Structure
 
 ```text
-third-party-dashboard-access-tracker/
+dashboard-access-tracker/
 │
 ├── README.md
 │
@@ -142,7 +195,7 @@ third-party-dashboard-access-tracker/
 └── sample_data/
 ```
 
----
+<br>
 
 ## Portfolio Safety
 
@@ -156,21 +209,22 @@ This repository contains:
 
 This project is intended strictly for educational and portfolio demonstration purposes.
 
----
+<br>
 
 ## Future Enhancements
 
 Planned future improvements include:
-- Python database integration
-- Outlook email automation
-- Jupyter Notebook workflow walkthrough
-- GUI interface
-- Dashboard analytics
-- Reporting automation
-- Access removal workflow
-- Role-based access tracking
 
----
+- GUI interface for request management
+- Automated status update workflow
+- Reporting dashboard integration
+- Access removal workflow
+- Role-based access controls
+- Power BI reporting integration
+- Approval workflow tracking
+- Automated notification system
+
+<br>
 
 ## Author
 
