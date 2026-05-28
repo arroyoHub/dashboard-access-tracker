@@ -275,3 +275,54 @@ BEGIN
     WHERE AccessRequestID = @AccessRequestID;
 END;
 GO
+
+/*
+===========================================================
+Stored Procedure: usp_GrantUserClientAccess
+
+Purpose:
+Creates an active user/client access record after
+a dashboard access request has been completed.
+
+Supports:
+- Access lifecycle tracking
+- Audit traceability
+- Active access reporting
+===========================================================
+*/
+
+CREATE PROCEDURE dbo.usp_GrantUserClientAccess
+    @AccessRequestID INT,
+    @DashboardUserID INT,
+    @ClientID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.UserClientAccess
+        WHERE DashboardUserID = @DashboardUserID
+          AND ClientID = @ClientID
+          AND IsActive = 1
+    )
+    BEGIN
+        INSERT INTO dbo.UserClientAccess (
+            AccessRequestID,
+            DashboardUserID,
+            ClientID,
+            IsActive,
+            DateAccessRequested,
+            DateAccessConfirmed
+        )
+        VALUES (
+            @AccessRequestID,
+            @DashboardUserID,
+            @ClientID,
+            1,
+            GETDATE(),
+            GETDATE()
+        );
+    END;
+END;
+GO

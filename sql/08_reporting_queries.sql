@@ -102,3 +102,25 @@ LEFT JOIN dbo.AccessRequests ar
     ON cm.ContractManagerID = ar.ContractManagerID
 GROUP BY cm.ContractManagerID, cm.FirstName, cm.LastName, cm.Email
 ORDER BY TotalRequests DESC;
+
+----------------------------------------------------
+-- 6. Monthly Access Request Trends (Last 12 Months)
+----------------------------------------------------
+SELECT
+    YEAR(DateRequested) AS RequestYear,
+    MONTH(DateRequested) AS RequestMonth,
+    COUNT(AccessRequestID) AS TotalRequests
+FROM dbo.AccessRequests
+WHERE DateRequested >= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(DateRequested), MONTH(DateRequested)
+ORDER BY RequestYear, RequestMonth;
+
+----------------------------------------------------
+-- 7. Total Access Requests by Status
+----------------------------------------------------
+SELECT
+    RequestStatus,
+    COUNT(AccessRequestID) AS TotalRequests
+FROM dbo.AccessRequests
+GROUP BY RequestStatus
+ORDER BY TotalRequests DESC;

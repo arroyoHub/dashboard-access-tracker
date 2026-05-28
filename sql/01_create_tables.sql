@@ -256,3 +256,50 @@ CREATE TABLE dbo.EmailLog (
         REFERENCES dbo.AccessRequests(AccessRequestID)
 );
 GO
+
+/*
+===========================================================
+Table: UserClientAccess
+
+Purpose:
+Tracks actual dashboard access granted between
+users and clients.
+
+Supports:
+- Active access tracking
+- Access audit history
+- Access lifecycle management
+- Reporting visibility
+===========================================================
+*/
+
+CREATE TABLE dbo.UserClientAccess (
+    UserClientAccessID INT IDENTITY(1,1) PRIMARY KEY,
+
+    AccessRequestID INT NULL,
+
+    DashboardUserID INT NOT NULL,
+    ClientID INT NOT NULL,
+
+    IsActive BIT NOT NULL DEFAULT 1,
+
+    DateAccessRequested DATETIME NULL,
+    DateAccessConfirmed DATETIME NULL,
+    DateAccessRemoved DATETIME NULL,
+
+    CreatedDate DATETIME NOT NULL DEFAULT GETDATE(),
+    ModifiedDate DATETIME NULL,
+
+    CONSTRAINT FK_UserClientAccess_AccessRequests
+        FOREIGN KEY (AccessRequestID)
+        REFERENCES dbo.AccessRequests(AccessRequestID),
+
+    CONSTRAINT FK_UserClientAccess_DashboardUsers
+        FOREIGN KEY (DashboardUserID)
+        REFERENCES dbo.DashboardUsers(DashboardUserID),
+
+    CONSTRAINT FK_UserClientAccess_Clients
+        FOREIGN KEY (ClientID)
+        REFERENCES dbo.Clients(ClientID)
+);
+GO

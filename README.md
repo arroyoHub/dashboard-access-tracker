@@ -304,6 +304,7 @@ Planned future improvements include:
 - Power BI reporting integration
 - Approval workflow tracking
 - Automated notification system
+- Add AccessGroups, AccessGroupClients, UserAccessGroups to support grouped access by client, profit center, or custom busines grouping
 
 <br>
 
